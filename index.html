@@ -4,16 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Cost of Good Enough — Davide Di Giorgio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&family=Mulish:wght@400;600&display=swap" rel="stylesheet">
   <style>
     /* === DESIGN SYSTEM === */
     :root {
-      --navy:       #1B2A4A;
-      --navy-hover: #243560;
-      --gold:       #B8860B;
-      --gold-light: #D4A520;
+      --yellow:     #E9B42A;
+      --yellow-d:   #D4A01F;
+      --red:        #EA0029;
+      --red-d:      #C40023;
       --bg:         #F8F6F1;
       --white:      #FFFFFF;
-      --text:       #1C2434;
+      --text:       #0D0D0D;
       --muted:      #6B7280;
       --muted-lt:   #9CA3AF;
       --border:     #D0CCC4;
@@ -26,7 +29,7 @@
     html { font-size: 16px; scroll-behavior: smooth; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica Neue, Arial, sans-serif;
+      font-family: 'Mulish', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.65;
@@ -37,8 +40,8 @@
 
     /* === HERO === */
     .hero {
-      background: var(--navy);
-      color: var(--white);
+      background: var(--yellow);
+      color: var(--text);
       padding: 64px 0 52px;
     }
 
@@ -46,13 +49,13 @@
       font-size: 11px;
       letter-spacing: 0.13em;
       text-transform: uppercase;
-      color: var(--gold-light);
+      color: rgba(0,0,0,0.55);
       margin-bottom: 18px;
       font-weight: 500;
     }
 
     .hero-title {
-      font-family: Georgia, 'Times New Roman', serif;
+      font-family: 'Josefin Sans', sans-serif;
       font-size: clamp(38px, 6vw, 56px);
       font-weight: 700;
       line-height: 1.05;
@@ -61,7 +64,7 @@
 
     .hero-subtitle {
       font-size: 17px;
-      color: rgba(255,255,255,0.72);
+      color: rgba(0,0,0,0.62);
       max-width: 520px;
       line-height: 1.6;
       margin-bottom: 44px;
@@ -71,23 +74,23 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 0;
-      border-top: 1px solid rgba(255,255,255,0.14);
+      border-top: 1px solid rgba(0,0,0,0.15);
       padding-top: 32px;
     }
 
     .stat {
       padding: 0 24px 0 0;
-      border-right: 1px solid rgba(255,255,255,0.12);
+      border-right: 1px solid rgba(0,0,0,0.12);
       margin-right: 24px;
     }
 
     .stat:last-child { border-right: none; margin-right: 0; padding-right: 0; }
 
     .stat-number {
-      font-family: Georgia, serif;
+      font-family: 'Josefin Sans', sans-serif;
       font-size: 30px;
       font-weight: 700;
-      color: var(--gold-light);
+      color: rgba(0,0,0,0.55);
       display: block;
       line-height: 1;
       margin-bottom: 7px;
@@ -95,7 +98,7 @@
 
     .stat-label {
       font-size: 11px;
-      color: rgba(255,255,255,0.55);
+      color: rgba(0,0,0,0.55);
       text-transform: uppercase;
       letter-spacing: 0.05em;
       line-height: 1.45;
@@ -184,7 +187,7 @@
     input[type="text"]:focus,
     select:focus {
       outline: none;
-      border-color: var(--navy);
+      border-color: var(--text);
       box-shadow: 0 0 0 3px rgba(27,42,74,0.08);
     }
 
@@ -234,7 +237,7 @@
     .tab-btn:last-child { border-right: none; }
 
     .tab-btn.active {
-      background: var(--navy);
+      background: var(--text);
       color: var(--white);
       font-weight: 600;
     }
@@ -244,10 +247,10 @@
 
     /* === SLIDER === */
     .slider-val {
-      font-family: Georgia, serif;
+      font-family: 'Josefin Sans', sans-serif;
       font-size: 26px;
       font-weight: 700;
-      color: var(--navy);
+      color: var(--text);
       display: block;
       margin-bottom: 8px;
     }
@@ -268,20 +271,20 @@
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: var(--navy);
+      background: var(--yellow);
       cursor: pointer;
       border: 3px solid var(--white);
-      box-shadow: 0 0 0 1.5px var(--navy);
+      box-shadow: 0 0 0 1.5px var(--red);
     }
 
     input[type="range"]::-moz-range-thumb {
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: var(--navy);
+      background: var(--yellow);
       cursor: pointer;
       border: 3px solid var(--white);
-      box-shadow: 0 0 0 1.5px var(--navy);
+      box-shadow: 0 0 0 1.5px var(--red);
     }
 
     .slider-ticks {
@@ -305,13 +308,13 @@
     /* === TURNOVER DERIVED === */
     .turnover-derived {
       font-size: 13px;
-      color: var(--navy);
+      color: var(--text);
       font-weight: 600;
       margin-top: 10px;
       padding: 10px 14px;
       background: #EEF2FF;
       border-radius: 5px;
-      border-left: 3px solid var(--navy);
+      border-left: 3px solid var(--red);
       display: none;
       line-height: 1.5;
     }
@@ -322,7 +325,7 @@
       align-items: center;
       gap: 7px;
       font-size: 13px;
-      color: var(--navy);
+      color: var(--text);
       font-weight: 500;
       cursor: pointer;
       background: none;
@@ -337,7 +340,7 @@
     .toggle-icon {
       width: 18px;
       height: 18px;
-      border: 1.5px solid var(--navy);
+      border: 1.5px solid var(--red);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -354,7 +357,7 @@
     .calc-btn {
       width: 100%;
       padding: 16px;
-      background: var(--navy);
+      background: var(--red);
       color: var(--white);
       font-size: 16px;
       font-weight: 600;
@@ -367,7 +370,7 @@
       margin-top: 8px;
     }
 
-    .calc-btn:hover { background: var(--navy-hover); }
+    .calc-btn:hover { background: var(--red-d); }
 
     /* === RESULTS === */
     .results { display: none; padding-bottom: 72px; }
@@ -375,7 +378,7 @@
 
     .results-header {
       padding: 48px 0 28px;
-      border-top: 2px solid var(--navy);
+      border-top: 2px solid var(--red);
       margin-top: 40px;
     }
 
@@ -383,16 +386,16 @@
       font-size: 10.5px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: rgba(0,0,0,0.55);
       font-weight: 600;
       margin-bottom: 10px;
     }
 
     .results-title {
-      font-family: Georgia, serif;
+      font-family: 'Josefin Sans', sans-serif;
       font-size: clamp(22px, 3.5vw, 30px);
       font-weight: 700;
-      color: var(--navy);
+      color: var(--text);
       line-height: 1.2;
       margin-bottom: 10px;
     }
@@ -434,10 +437,10 @@
     }
 
     .li-amount {
-      font-family: Georgia, serif;
+      font-family: 'Josefin Sans', sans-serif;
       font-size: 18px;
       font-weight: 700;
-      color: var(--navy);
+      color: var(--text);
       white-space: nowrap;
     }
 
@@ -457,7 +460,7 @@
 
     /* === TOTAL BOX === */
     .total-box {
-      background: var(--navy);
+      background: #0D0D0D;
       color: var(--white);
       border-radius: 10px;
       padding: 30px 32px;
@@ -473,7 +476,7 @@
     }
 
     .total-amount {
-      font-family: Georgia, serif;
+      font-family: 'Josefin Sans', sans-serif;
       font-size: clamp(42px, 7vw, 60px);
       font-weight: 700;
       line-height: 1;
@@ -487,7 +490,7 @@
     }
 
     .five-year-row {
-      border-top: 1px solid rgba(255,255,255,0.14);
+      border-top: 1px solid rgba(0,0,0,0.15);
       padding-top: 20px;
       display: flex;
       justify-content: space-between;
@@ -503,7 +506,7 @@
     }
 
     .five-year-amount {
-      font-family: Georgia, serif;
+      font-family: 'Josefin Sans', sans-serif;
       font-size: 26px;
       font-weight: 700;
       color: rgba(255,255,255,0.88);
@@ -530,10 +533,10 @@
     }
 
     .profit-amount {
-      font-family: Georgia, serif;
+      font-family: 'Josefin Sans', sans-serif;
       font-size: 26px;
       font-weight: 700;
-      color: var(--navy);
+      color: var(--text);
       margin-bottom: 8px;
     }
 
@@ -551,10 +554,10 @@
     }
 
     .meaning h3 {
-      font-family: Georgia, serif;
+      font-family: 'Josefin Sans', sans-serif;
       font-size: 20px;
       font-weight: 700;
-      color: var(--navy);
+      color: var(--text);
       margin-bottom: 16px;
     }
 
@@ -569,7 +572,7 @@
 
     /* === CTA === */
     .cta-box {
-      background: var(--navy);
+      background: #0D0D0D;
       color: var(--white);
       border-radius: 10px;
       padding: 36px;
@@ -578,7 +581,7 @@
     }
 
     .cta-box h3 {
-      font-family: Georgia, serif;
+      font-family: 'Josefin Sans', sans-serif;
       font-size: 22px;
       font-weight: 700;
       margin-bottom: 10px;
@@ -597,7 +600,7 @@
     .cta-btn {
       display: inline-block;
       padding: 13px 32px;
-      background: var(--gold);
+      background: var(--red);
       color: var(--white);
       font-size: 15px;
       font-weight: 600;
@@ -610,7 +613,7 @@
       transition: background 0.15s;
     }
 
-    .cta-btn:hover { background: var(--gold-light); }
+    .cta-btn:hover { background: var(--red-d); }
 
     /* === PRINT BUTTON === */
     .print-btn {
@@ -628,7 +631,7 @@
       letter-spacing: 0.01em;
     }
 
-    .print-btn:hover { border-color: var(--navy); color: var(--navy); }
+    .print-btn:hover { border-color: var(--text); color: var(--text); }
 
     /* === METHODOLOGY === */
     .methodology {
@@ -642,7 +645,7 @@
 
     /* === FOOTER === */
     .site-footer {
-      background: var(--navy);
+      background: #0D0D0D;
       color: rgba(255,255,255,0.45);
       padding: 28px 0;
       text-align: center;
@@ -666,7 +669,7 @@
       }
 
       .total-box {
-        background: #1B2A4A !important;
+        background: #0D0D0D !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
         color: white !important;
@@ -723,7 +726,7 @@
   <header class="hero">
     <div class="container">
       <p class="hero-eyebrow">Davide Di Giorgio — Good Enough (2026)</p>
-      <h1 class="hero-title">The Cost of<br>Good Enough</h1>
+      <h1 class="hero-title">The Cost of<br>Good <span style="color:#EA0029;">Enough</span></h1>
       <p class="hero-subtitle">Calculate what tolerating average team performance is actually costing your operation — in figures your P&L has never labelled.</p>
 
       <div class="hero-stats">
