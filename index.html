@@ -718,7 +718,11 @@
 
       .five-year-row { flex-direction: column; gap: 4px; }
     }
-  </style>
+      .privacy-note{font-size:12.5px;color:var(--muted-lt);text-align:center;margin:12px 0 0;line-height:1.5;}
+      .shortcut-note{background:#FBF7EE;border:1px solid #E6D9BE;border-radius:10px;padding:14px 18px;font-size:14.5px;color:#4a4a4a;margin-top:22px;line-height:1.6;}
+    .shortcut-note a{color:#EA0029;font-weight:700;text-decoration:none;}
+    .shortcut-note a:hover{text-decoration:underline;}
+</style>
 </head>
 <body>
 
@@ -751,6 +755,7 @@
     <div class="container">
       <p>The Gallup Q12 meta-analysis tracked engagement across more than 100,000 business units. Engaged teams show 23% higher profitability, 14% higher productivity, 81% lower absenteeism, and 43% lower turnover than disengaged ones.</p>
       <p>Those figures are not aspirational benchmarks. They are already on your books — labelled as overtime costs, recruitment fees, sick days, and output shortfalls. This tool converts them into a number specific to your operation. The methodology is transparent. You can check the arithmetic.</p>
+      <p class="shortcut-note">Don&rsquo;t have your operation&rsquo;s numbers to hand? Not every leader does. You can skip the figures and go straight to assessing your team &mdash; <a href="https://davidedigiorgio.kit.com/goodenoughdiagnostic" target="_top" rel="noopener">find where the gap is coming from &rarr;</a></p>
     </div>
   </section>
 
@@ -855,6 +860,7 @@
       </div>
 
       <button class="calc-btn" onclick="calculate()">Calculate the cost</button>
+      <p class="privacy-note">Runs entirely in your browser. Nothing you type leaves it.</p>
 
     </div>
   </section>
@@ -904,9 +910,9 @@
 
       <!-- CTA -->
       <div class="cta-box">
-        <h3>This number has an upstream cause</h3>
-        <p>The gap doesn&rsquo;t close by adding another programme, another survey, or another dashboard. It closes when you remove what&rsquo;s stopping your team believing the work is worth their best. That is the operating shift Davide builds with leadership teams &mdash; as a keynote, a masterclass, or a six-to-twelve-month retainer.</p>
-        <a href="https://davidedigiorgio.com/speaking" target="_top" rel="noopener" class="cta-btn">See how Davide works with leaders &rarr;</a>
+        <h3>This number has one cause. Find it.</h3>
+        <p>Your cost of good enough is coming from one of three places &mdash; your standards, your team&rsquo;s beliefs, or the conditions around them &mdash; and only one is really yours to start with. Take a few minutes and find out which, and the one step to take there.</p>
+        <a href="https://davidedigiorgio.kit.com/goodenoughdiagnostic" target="_top" rel="noopener" class="cta-btn">Find where to start &rarr;</a>
       </div>
 
       <button class="print-btn" onclick="window.print()">
@@ -915,6 +921,8 @@
 
       <p class="methodology">
         <strong>Methodology.</strong> Based on Gallup Q12 global meta-analysis (Harter, Schmidt, Agrawal, Plowman &amp; Blue, 2020). Productivity figure uses 17% — a conservative midpoint of Gallup's 14–21% range. Absenteeism cost calculated at 5.67 additional days per disengaged employee (81% lower absenteeism benchmark × 7-day annual baseline). Annual departure probability for disengaged employees set at 20%; replacement cost estimated at 40% of annual salary (standard HR benchmark). Turnover-to-engagement mapping and profitability calculations are estimates based on proportional scaling from Gallup's quartile data. Top-quartile benchmark set at 65% engaged. All figures are estimates for planning purposes; individual results will vary by industry, team structure, and market conditions.
+        <br><br>
+        <strong>Your data.</strong> This tool runs entirely in your browser. Your figures, your name, and your results are never sent anywhere, stored, or logged &mdash; there&rsquo;s no server, no database, and no analytics on this page. Close the tab and it&rsquo;s gone. You can check that in the page source, the same way you can check the arithmetic.
       </p>
 
     </div>
