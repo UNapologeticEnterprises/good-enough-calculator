@@ -572,27 +572,27 @@
 
     /* === CTA === */
     .cta-box {
-      background: #0D0D0D;
-      color: var(--white);
+      background: var(--yellow);
+      color: var(--text);
       border-radius: 10px;
       padding: 36px;
-      margin: 32px 0 20px;
+      margin: 24px 0 8px;
       text-align: center;
     }
 
     .cta-box h3 {
       font-family: 'Josefin Sans', sans-serif;
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 700;
       margin-bottom: 10px;
     }
 
     .cta-box p {
-      font-size: 14px;
-      color: rgba(255,255,255,0.65);
+      font-size: 14.5px;
+      color: rgba(0,0,0,0.66);
       line-height: 1.65;
       margin-bottom: 24px;
-      max-width: 400px;
+      max-width: 510px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -614,6 +614,33 @@
     }
 
     .cta-btn:hover { background: var(--red-d); }
+
+    /* Primary CTA button matches the Calculate bar's weight */
+    .cta-box .cta-btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      font-size: 16px;
+      border-radius: 8px;
+    }
+
+    /* Lighter repeat, after the prose */
+    .cta-repeat {
+      text-align: center;
+      padding: 26px 0 4px;
+      border-top: 1px solid var(--border);
+      margin-top: 4px;
+    }
+
+    .cta-repeat p {
+      font-size: 14.5px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
     /* === PRINT BUTTON === */
     .print-btn {
@@ -657,7 +684,7 @@
     @media print {
       body { background: white; font-size: 12px; }
 
-      .hero, .intro, .form-section, .cta-box, .print-btn, .site-footer {
+      .hero, .intro, .form-section, .cta-box, .cta-repeat, .print-btn, .site-footer {
         display: none !important;
       }
 
@@ -899,6 +926,13 @@
         <p class="profit-note" id="profitNote"></p>
       </div>
 
+      <!-- PRIMARY CTA — sits directly under the number, before any prose -->
+      <div class="cta-box">
+        <h3>This number has one cause. Find it.</h3>
+        <p>Your cost of good enough is coming from one of three places &mdash; your standards, your team&rsquo;s beliefs, or the conditions around them &mdash; and only one is really yours to start with. Take a few minutes and find out which, and the one step to take there.</p>
+        <a href="https://davidedigiorgio.kit.com/goodenoughdiagnostic" target="_top" rel="noopener" class="cta-btn">Find where to start &rarr;</a>
+      </div>
+
       <!-- What this means -->
       <div class="meaning">
         <h3>What this number means</h3>
@@ -908,10 +942,9 @@
         <p>If this number is worth closing, the book is worth reading.</p>
       </div>
 
-      <!-- CTA -->
-      <div class="cta-box">
-        <h3>This number has one cause. Find it.</h3>
-        <p>Your cost of good enough is coming from one of three places &mdash; your standards, your team&rsquo;s beliefs, or the conditions around them &mdash; and only one is really yours to start with. Take a few minutes and find out which, and the one step to take there.</p>
+      <!-- CTA repeat — lighter, for anyone who read to the end -->
+      <div class="cta-repeat">
+        <p>One of three places. Find out which, and the one step to take there.</p>
         <a href="https://davidedigiorgio.kit.com/goodenoughdiagnostic" target="_top" rel="noopener" class="cta-btn">Find where to start &rarr;</a>
       </div>
 
