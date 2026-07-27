@@ -1,1209 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Cost of Good Enough — Davide Di Giorgio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@700&family=Mulish:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    /* === DESIGN SYSTEM === */
-    :root {
-      --yellow:     #E9B42A;
-      --yellow-d:   #D4A01F;
-      --red:        #EA0029;
-      --red-d:      #C40023;
-      --bg:         #F8F6F1;
-      --white:      #FFFFFF;
-      --text:       #0D0D0D;
-      --muted:      #6B7280;
-      --muted-lt:   #9CA3AF;
-      --border:     #D0CCC4;
-      --light-bg:   #EDE8DF;
-      --error:      #9B2335;
-    }
-
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    html { font-size: 16px; scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Mulish', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .container { max-width: 700px; margin: 0 auto; padding: 0 24px; }
-
-    /* === HERO === */
-    .hero {
-      background: var(--yellow);
-      color: var(--text);
-      padding: 64px 0 52px;
-    }
-
-    .hero-eyebrow {
-      font-size: 11px;
-      letter-spacing: 0.13em;
-      text-transform: uppercase;
-      color: rgba(0,0,0,0.55);
-      margin-bottom: 18px;
-      font-weight: 500;
-    }
-
-    .hero-title {
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: clamp(38px, 6vw, 56px);
-      font-weight: 700;
-      line-height: 1.05;
-      margin-bottom: 18px;
-    }
-
-    .hero-subtitle {
-      font-size: 17px;
-      color: rgba(0,0,0,0.62);
-      max-width: 520px;
-      line-height: 1.6;
-      margin-bottom: 44px;
-    }
-
-    .hero-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0;
-      border-top: 1px solid rgba(0,0,0,0.15);
-      padding-top: 32px;
-    }
-
-    .stat {
-      padding: 0 24px 0 0;
-      border-right: 1px solid rgba(0,0,0,0.12);
-      margin-right: 24px;
-    }
-
-    .stat:last-child { border-right: none; margin-right: 0; padding-right: 0; }
-
-    .stat-number {
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 30px;
-      font-weight: 700;
-      color: rgba(0,0,0,0.55);
-      display: block;
-      line-height: 1;
-      margin-bottom: 7px;
-    }
-
-    .stat-label {
-      font-size: 11px;
-      color: rgba(0,0,0,0.55);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      line-height: 1.45;
-    }
-
-    /* === INTRO === */
-    .intro { padding: 48px 0 8px; }
-
-    .intro p {
-      font-size: 15.5px;
-      color: var(--text);
-      margin-bottom: 15px;
-      max-width: 620px;
-      line-height: 1.7;
-    }
-
-    .intro p:last-child { margin-bottom: 0; }
-
-    /* === FORM === */
-    .form-section { padding: 40px 0 24px; }
-
-    .section-rule {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 36px;
-    }
-
-    .section-rule-label {
-      font-size: 10.5px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      font-weight: 600;
-      white-space: nowrap;
-    }
-
-    .section-rule-line {
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    .field-group { margin-bottom: 30px; }
-
-    .field-label {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 5px;
-    }
-
-    .field-helper {
-      display: block;
-      font-size: 12.5px;
-      color: var(--muted);
-      margin-bottom: 10px;
-      line-height: 1.55;
-    }
-
-    .field-row {
-      display: grid;
-      grid-template-columns: 1fr 110px;
-      gap: 10px;
-      align-items: start;
-    }
-
-    input[type="number"],
-    input[type="text"],
-    select {
-      width: 100%;
-      padding: 11px 14px;
-      border: 1.5px solid var(--border);
-      border-radius: 6px;
-      font-size: 15px;
-      color: var(--text);
-      background: var(--white);
-      font-family: inherit;
-      transition: border-color 0.15s;
-      -webkit-appearance: none;
-      appearance: none;
-    }
-
-    input[type="number"]:focus,
-    input[type="text"]:focus,
-    select:focus {
-      outline: none;
-      border-color: var(--text);
-      box-shadow: 0 0 0 3px rgba(27,42,74,0.08);
-    }
-
-    input.invalid { border-color: var(--error) !important; }
-
-    .field-error {
-      font-size: 12px;
-      color: var(--error);
-      margin-top: 5px;
-      display: none;
-    }
-
-    select {
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%236B7280' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      padding-right: 34px;
-      cursor: pointer;
-    }
-
-    /* === TABS === */
-    .tab-bar {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-      margin-bottom: 18px;
-      background: var(--white);
-    }
-
-    .tab-btn {
-      padding: 9px 8px;
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--muted);
-      background: transparent;
-      border: none;
-      border-right: 1px solid var(--border);
-      cursor: pointer;
-      transition: all 0.15s;
-      font-family: inherit;
-      text-align: center;
-      line-height: 1.3;
-    }
-
-    .tab-btn:last-child { border-right: none; }
-
-    .tab-btn.active {
-      background: var(--text);
-      color: var(--white);
-      font-weight: 600;
-    }
-
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-
-    /* === SLIDER === */
-    .slider-val {
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--text);
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    input[type="range"] {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 100%;
-      height: 3px;
-      border-radius: 2px;
-      background: var(--border);
-      cursor: pointer;
-      margin: 4px 0 6px;
-    }
-
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--yellow);
-      cursor: pointer;
-      border: 3px solid var(--white);
-      box-shadow: 0 0 0 1.5px var(--red);
-    }
-
-    input[type="range"]::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--yellow);
-      cursor: pointer;
-      border: 3px solid var(--white);
-      box-shadow: 0 0 0 1.5px var(--red);
-    }
-
-    .slider-ticks {
-      display: flex;
-      justify-content: space-between;
-      font-size: 10px;
-      color: var(--muted-lt);
-      margin-bottom: 10px;
-    }
-
-    .slider-context {
-      font-size: 12.5px;
-      color: var(--muted);
-      background: var(--light-bg);
-      border-radius: 5px;
-      padding: 9px 12px;
-      line-height: 1.5;
-      margin-top: 4px;
-    }
-
-    /* === TURNOVER DERIVED === */
-    .turnover-derived {
-      font-size: 13px;
-      color: var(--text);
-      font-weight: 600;
-      margin-top: 10px;
-      padding: 10px 14px;
-      background: #EEF2FF;
-      border-radius: 5px;
-      border-left: 3px solid var(--red);
-      display: none;
-      line-height: 1.5;
-    }
-
-    /* === OPTIONAL TOGGLE === */
-    .optional-toggle {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 13px;
-      color: var(--text);
-      font-weight: 500;
-      cursor: pointer;
-      background: none;
-      border: none;
-      font-family: inherit;
-      padding: 0;
-      margin-bottom: 12px;
-    }
-
-    .optional-toggle:hover { opacity: 0.72; }
-
-    .toggle-icon {
-      width: 18px;
-      height: 18px;
-      border: 1.5px solid var(--red);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      line-height: 1;
-      flex-shrink: 0;
-    }
-
-    .optional-field { display: none; }
-    .optional-field.show { display: block; }
-
-    /* === CALCULATE BUTTON === */
-    .calc-btn {
-      width: 100%;
-      padding: 16px;
-      background: var(--red);
-      color: var(--white);
-      font-size: 16px;
-      font-weight: 600;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: inherit;
-      letter-spacing: 0.025em;
-      transition: background 0.15s;
-      margin-top: 8px;
-    }
-
-    .calc-btn:hover { background: var(--red-d); }
-
-    /* === RESULTS === */
-    .results { display: none; padding-bottom: 72px; }
-    .results.show { display: block; }
-
-    .results-header {
-      padding: 48px 0 28px;
-      border-top: 2px solid var(--red);
-      margin-top: 40px;
-    }
-
-    .results-eyebrow {
-      font-size: 10.5px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: rgba(0,0,0,0.55);
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-
-    .results-title {
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: clamp(22px, 3.5vw, 30px);
-      font-weight: 700;
-      color: var(--text);
-      line-height: 1.2;
-      margin-bottom: 10px;
-    }
-
-    .results-summary {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.65;
-    }
-
-    /* === LINE ITEMS === */
-    .line-items {
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      background: var(--white);
-      overflow: hidden;
-      margin: 28px 0 20px;
-    }
-
-    .line-item {
-      padding: 22px 24px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .line-item:last-child { border-bottom: none; }
-
-    .li-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 5px;
-      gap: 16px;
-    }
-
-    .li-name {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .li-amount {
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text);
-      white-space: nowrap;
-    }
-
-    .li-calc {
-      font-size: 11.5px;
-      color: var(--muted-lt);
-      font-family: 'Courier New', 'Consolas', monospace;
-      margin-bottom: 7px;
-      line-height: 1.4;
-    }
-
-    .li-explain {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    /* === TOTAL BOX === */
-    .total-box {
-      background: #0D0D0D;
-      color: var(--white);
-      border-radius: 10px;
-      padding: 30px 32px;
-      margin-bottom: 16px;
-    }
-
-    .total-label {
-      font-size: 11px;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.55);
-      margin-bottom: 8px;
-    }
-
-    .total-amount {
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: clamp(42px, 7vw, 60px);
-      font-weight: 700;
-      line-height: 1;
-      margin-bottom: 3px;
-    }
-
-    .total-per-year {
-      font-size: 13px;
-      color: rgba(255,255,255,0.45);
-      margin-bottom: 24px;
-    }
-
-    .five-year-row {
-      border-top: 1px solid rgba(0,0,0,0.15);
-      padding-top: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 16px;
-    }
-
-    .five-year-label {
-      font-size: 12px;
-      color: rgba(255,255,255,0.5);
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-    }
-
-    .five-year-amount {
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 26px;
-      font-weight: 700;
-      color: rgba(255,255,255,0.88);
-    }
-
-    /* === OPTIONAL PROFIT BOX === */
-    .profit-box {
-      display: none;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      background: var(--white);
-      padding: 22px 24px;
-      margin-bottom: 16px;
-    }
-
-    .profit-box.show { display: block; }
-
-    .profit-label {
-      font-size: 10.5px;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-
-    .profit-amount {
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 8px;
-    }
-
-    .profit-note {
-      font-size: 12.5px;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    /* === WHAT THIS MEANS === */
-    .meaning {
-      padding: 32px 0 28px;
-      border-top: 1px solid var(--border);
-      margin-top: 8px;
-    }
-
-    .meaning h3 {
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 16px;
-    }
-
-    .meaning p {
-      font-size: 15px;
-      color: var(--text);
-      line-height: 1.72;
-      margin-bottom: 14px;
-    }
-
-    .meaning p:last-child { margin-bottom: 0; }
-
-    /* === CTA === */
-    .cta-box {
-      background: var(--yellow);
-      color: var(--text);
-      border-radius: 10px;
-      padding: 36px;
-      margin: 24px 0 8px;
-      text-align: center;
-    }
-
-    .cta-box h3 {
-      font-family: 'Josefin Sans', sans-serif;
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .cta-box p {
-      font-size: 14.5px;
-      color: rgba(0,0,0,0.66);
-      line-height: 1.65;
-      margin-bottom: 24px;
-      max-width: 510px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .cta-btn {
-      display: inline-block;
-      padding: 13px 32px;
-      background: var(--red);
-      color: var(--white);
-      font-size: 15px;
-      font-weight: 600;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-family: inherit;
-      text-decoration: none;
-      letter-spacing: 0.025em;
-      transition: background 0.15s;
-    }
-
-    .cta-btn:hover { background: var(--red-d); }
-
-    /* Primary CTA button matches the Calculate bar's weight */
-    .cta-box .cta-btn {
-      display: block;
-      width: 100%;
-      padding: 16px;
-      font-size: 16px;
-      border-radius: 8px;
-    }
-
-    /* Lighter repeat, after the prose */
-    .cta-repeat {
-      text-align: center;
-      padding: 26px 0 4px;
-      border-top: 1px solid var(--border);
-      margin-top: 4px;
-    }
-
-    .cta-repeat p {
-      font-size: 14.5px;
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 16px;
-      max-width: 420px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* === PRINT BUTTON === */
-    .print-btn {
-      width: 100%;
-      padding: 11px;
-      background: transparent;
-      color: var(--muted);
-      font-size: 13px;
-      border: 1.5px solid var(--border);
-      border-radius: 6px;
-      cursor: pointer;
-      font-family: inherit;
-      transition: all 0.15s;
-      margin-bottom: 28px;
-      letter-spacing: 0.01em;
-    }
-
-    .print-btn:hover { border-color: var(--text); color: var(--text); }
-
-    /* === METHODOLOGY === */
-    .methodology {
-      font-size: 11.5px;
-      color: var(--muted-lt);
-      line-height: 1.65;
-      padding-top: 20px;
-      border-top: 1px solid var(--border);
-      padding-bottom: 8px;
-    }
-
-    /* === FOOTER === */
-    .site-footer {
-      background: #0D0D0D;
-      color: rgba(255,255,255,0.45);
-      padding: 28px 0;
-      text-align: center;
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    /* === PRINT STYLES === */
-    @media print {
-      body { background: white; font-size: 12px; }
-
-      .hero, .intro, .form-section, .cta-box, .cta-repeat, .print-btn, .site-footer {
-        display: none !important;
-      }
-
-      .results { display: block !important; padding-bottom: 0; }
-
-      .results-header {
-        border-top: 2px solid #1B2A4A;
-        padding-top: 16px;
-      }
-
-      .total-box {
-        background: #0D0D0D !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-        color: white !important;
-        color-adjust: exact;
-      }
-
-      .meaning p { font-size: 12px; }
-
-      .line-item, .total-box, .meaning { break-inside: avoid; }
-
-      .print-header {
-        display: block !important;
-        font-size: 10px;
-        color: #9CA3AF;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        padding-bottom: 16px;
-        border-bottom: 1px solid #D0CCC4;
-        margin-bottom: 0;
-      }
-    }
-
-    .print-header { display: none; }
-
-    /* === RESPONSIVE === */
-    @media (max-width: 560px) {
-      .hero { padding: 44px 0 40px; }
-
-      .hero-stats {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-
-      .stat { border-right: none; margin-right: 0; padding-right: 0; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-      .stat:last-child { border-bottom: none; padding-bottom: 0; }
-
-      .field-row { grid-template-columns: 1fr; }
-
-      .tab-btn { font-size: 11px; padding: 8px 4px; }
-
-      .li-top { flex-direction: column; align-items: flex-start; gap: 2px; }
-
-      .total-amount { font-size: 40px; }
-
-      .cta-box { padding: 28px 20px; }
-
-      .five-year-row { flex-direction: column; gap: 4px; }
-    }
-      .privacy-note{font-size:12.5px;color:var(--muted-lt);text-align:center;margin:12px 0 0;line-height:1.5;}
-      .shortcut-note{background:#FBF7EE;border:1px solid #E6D9BE;border-radius:10px;padding:14px 18px;font-size:14.5px;color:#4a4a4a;margin-top:22px;line-height:1.6;}
-    .shortcut-note a{color:#EA0029;font-weight:700;text-decoration:none;}
-    .shortcut-note a:hover{text-decoration:underline;}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Find Where to Start — The Good Enough Gap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@600;700&family=Mulish:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--cream:#F8F6F1;--field:#F8F6F1;--paper:#FFFFFF;--ink:#0D0D0D;--ink-soft:#2b2b2b;--red:#EA0029;--blue:#000F9F;--gold:#D4A01F;--gold-soft:#F2E8CE;--gold-deep:#A9791C;--tan:#EDE8DF;--border:#D0CCC4;--grey:#6B7280;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--field);color:var(--ink);font-family:'Mulish',-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:660px;margin:0 auto;padding:52px 24px 80px;}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#6E5310;margin:0 0 16px;}
+  h1{font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:40px;line-height:1.05;margin:0 0 18px;}
+  h1 .r{color:var(--red);}
+  .dots{display:flex;gap:8px;margin:0 0 26px;}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--border);}
+  .dot.on{background:var(--red);}.dot.done{background:var(--ink);}
+  .screen{display:none;animation:fade .45s ease;}
+  .screen.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+  .card{background:var(--paper);border:1px solid var(--border);border-radius:16px;padding:30px 26px;}
+  .tag{font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:14px;letter-spacing:.08em;color:var(--red);margin:0 0 14px;text-transform:uppercase;}
+  .frame{font-size:16px;color:var(--ink-soft);margin:0 0 16px;}
+  /* QUESTION CARD (consistent, Klein blue) */
+  .qcard{background:#F3F4FC;border:1px solid #C9CDF2;border-left:5px solid var(--blue);border-radius:12px;padding:18px 20px;margin:0 0 18px;}
+  .qlabel{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin:0 0 9px;}
+  .qtext{font-family:'Josefin Sans',sans-serif;font-weight:600;font-size:21px;line-height:1.3;color:var(--blue);margin:0;}
+  .qsub{font-size:14px;color:var(--ink-soft);margin:12px 0 0;}
+  .hint{font-size:14.5px;color:var(--grey);margin:0 0 16px;}
+  .listen{background:var(--tan);border-radius:10px;padding:13px 16px;font-size:14px;color:var(--ink-soft);margin:0 0 22px;}
+  .listen b{color:var(--ink);}
+  .note{border-left:3px solid var(--red);padding:2px 0 2px 15px;font-size:14.5px;color:var(--ink-soft);margin:0 0 18px;}
+  .note b{color:var(--ink);}
+  .exhead{font-weight:700;color:var(--ink);font-size:14px;margin:0 0 10px;}
+  .exrow{display:flex;gap:10px;margin:0 0 20px;}
+  .flips{perspective:1200px;}
+  .excard{flex:1;background:var(--gold-soft);border:1px solid #E6D4A6;border-radius:10px;padding:13px 14px;font-size:13px;color:var(--ink-soft);line-height:1.5;}
+  .cx{display:block;font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--gold-deep);margin:0 0 7px;}
+  .flip{flex:1;height:188px;}
+  .flip-inner{position:relative;width:100%;height:100%;transition:transform .7s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d;}
+  .flip.flipped .flip-inner{transform:rotateY(180deg);}
+  .flip-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--gold-soft);border:1px solid #E6D4A6;border-radius:10px;padding:14px 15px;font-size:13px;color:var(--ink-soft);line-height:1.5;overflow:hidden;}
+  .flip-back{transform:rotateY(180deg);}
+  .choices{display:flex;flex-direction:column;gap:12px;}
+  .choice{width:100%;text-align:left;background:var(--cream);border:1.5px solid var(--border);border-radius:11px;padding:16px 20px;font-family:'Mulish',sans-serif;font-size:16px;font-weight:600;color:var(--ink);cursor:pointer;transition:.15s;}
+  .choice:hover{border-color:var(--red);background:#fff;transform:translateY(-1px);}
+  .intro p{font-size:16px;color:var(--ink-soft);margin:0 0 15px;}
+  .intro .names{color:var(--ink);font-weight:700;}
+  .intro .three{font-family:'Josefin Sans',sans-serif;font-weight:700;color:var(--red);}
+  .intro .honest{background:#F3F4FC;border-left:5px solid var(--blue);border-radius:10px;padding:14px 18px;color:var(--ink-soft);font-size:15.5px;}
+  .begin{margin-top:24px;display:inline-block;background:var(--red);color:#fff;border:none;border-radius:9px;padding:15px 34px;font-family:inherit;font-size:15.5px;font-weight:700;cursor:pointer;}
+  .verdict{font-size:12.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin:0 0 10px;}
+  .result h2{font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:27px;line-height:1.15;margin:0 0 16px;}
+  .result p{font-size:16px;color:var(--ink-soft);margin:0 0 16px;}
+  .step{background:var(--ink);border-radius:13px;padding:20px 22px;margin:18px 0;}
+  .step .label{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin:0 0 8px;}
+  .step p{color:#efece6;font-size:15px;margin:0 0 12px;}.step p:last-child{margin:0;}
+  .step .say{color:#fff;font-style:italic;}
+  .danger{font-size:14.5px;color:var(--ink-soft);margin:0 0 16px;}
+  .danger b{color:var(--red);}
+  .carry{border:1.5px dashed var(--border);border-radius:11px;padding:16px 18px;margin:18px 0;font-size:14.5px;color:var(--ink-soft);}
+  .carry b.lbl{color:var(--red);text-transform:uppercase;font-size:12px;letter-spacing:.1em;display:block;margin-bottom:6px;}
+  .carry .w{color:var(--ink);font-weight:700;}
+  .expandbtn{margin-top:6px;font-size:14px;color:var(--red);background:none;border:none;cursor:pointer;font-weight:700;font-family:inherit;padding:0;}
+  .expand{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
+  .expand.on{display:block;}
+  .expand h4{font-family:'Josefin Sans',sans-serif;margin:0 0 4px;font-size:16px;}
+  .expand p{font-size:14.5px;color:var(--ink-soft);margin:0 0 12px;}
+  .cta{margin:24px 0 0;}
+  .cta .prompt-line{font-size:15px;color:var(--ink-soft);font-style:italic;margin:0 0 16px;}
+  .cta a{display:inline-block;background:var(--red);color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:15px 30px;border-radius:9px;}
+  .restart{display:inline-block;margin-top:22px;font-size:14px;color:var(--grey);background:none;border:none;cursor:pointer;text-decoration:underline;font-family:inherit;}
+  .foot{text-align:center;margin-top:40px;font-size:12.5px;color:#6E5310;}
+  @media(max-width:560px){h1{font-size:32px;}.wrap{padding:38px 18px 60px;}.exrow{flex-direction:column;}.flip{flex:none;height:148px;}}
+  .choiceq{display:block;margin-top:9px;font-weight:700;color:var(--ink);}
+  .response{background:#fff;border:1px solid #EBD9A6;border-left:5px solid #E9B42A;border-radius:11px;padding:16px 18px;margin:0 0 22px;}
+  .response .rlabel{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#A9791C;margin:0 0 8px;}
+  .response p{font-size:15px;color:var(--ink-soft);margin:0;}
+  .lm{display:block;font-weight:700;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;margin:9px 0 1px;}
+  .lm.luck{color:var(--grey);}
+  .lm.mech{color:var(--ink);}
+  .print-btn{display:inline-block;margin-top:16px;margin-right:18px;font-size:14px;color:var(--grey);background:none;border:none;cursor:pointer;text-decoration:underline;font-family:inherit;}
+  @media print{
+    body{background:#fff;}
+    .dots,.choices,.begin,.restart,.expandbtn,.print-btn,.cta a,.foot,.eyebrow,.flips{display:none!important;}
+    .screen:not(.active){display:none!important;}
+    .card{border:none;}
+    .step{background:#fff!important;border:1px solid #000;}
+    .step p,.step .label,.step .say{color:#000!important;}
+  }
+  .bandhead{background:#E9B42A;width:100%;}
+  .bandhead .inner{max-width:660px;margin:0 auto;padding:20px 24px;}
+  .bandhead .eyebrow{margin:0;color:#5c4712;}
+  .result .verdict{color:var(--red);font-size:14px;letter-spacing:.08em;}
+  .result .qlabel{color:var(--blue);}
+  .result .qtext{color:var(--blue);}
 </style>
 </head>
 <body>
+<div class="bandhead"><div class="inner"><p class="eyebrow">Davide Di Giorgio — Good Enough</p></div></div>
+<div class="wrap">
 
-  <!-- ============ HERO ============ -->
-  <header class="hero">
-    <div class="container">
-      <p class="hero-eyebrow">Davide Di Giorgio — Good Enough (2026)</p>
-      <h1 class="hero-title">The Cost of<br>Good <span style="color:#EA0029;">Enough</span></h1>
-      <p class="hero-subtitle">Calculate what tolerating average team performance is actually costing your operation — in figures your P&L has never labelled.</p>
+  <!-- INTRO -->
+  <div class="screen active" id="s-intro">
+    <h1>Find where to <span class="r">start</span>.</h1>
+    <div class="card intro">
+      <p>The cost of good enough you just calculated isn't random. It's coming from one of three places, and only one of them is really yours to start with.</p>
+      <p>Over 30+ years I've worked across industries most people never combine, from theatre, hospitality, and education to leading a billion-dollar brand's expansion across two countries. The same gap shows up in every one of them, and it almost always traces to one of three things: your <span class="names">standards</span>, your team's <span class="names">beliefs</span>, or the <span class="names">conditions</span> around them. <span class="three">Just three.</span></p>
+      <p>They work together, so we take them one at a time, in order, and stop at the first one that's actually yours. A few minutes, start to finish.</p>
+      <p class="honest">One condition for this to work: be completely objective with yourself. Not the version you'd give in a meeting, but what's actually true when no one is looking. This is only as sharp as the objectivity you bring to it.</p>
+      <p style="margin-top:15px;">And it's going to feel almost too simple. The tools you've been handed to fix this are usually complicated; that's how they justify themselves. The simplicity here isn't a shortcut. It's the whole point. It's what's left once you strip away everything that doesn't work.</p>
+      <button class="begin" onclick="begin()">Begin →</button>
+    </div>
+  </div>
 
-      <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-number">23%</span>
-          <span class="stat-label">Higher profitability<br>for engaged teams</span>
-        </div>
-        <div class="stat">
-          <span class="stat-number">78%</span>
-          <span class="stat-label">Lower absenteeism<br>for engaged teams</span>
-        </div>
-        <div class="stat">
-          <span class="stat-number">51%</span>
-          <span class="stat-label">Lower turnover<br>for engaged teams</span>
-        </div>
+  <div class="dots" id="dots" style="display:none;"><span class="dot" id="d1"></span><span class="dot" id="d2"></span><span class="dot" id="d3"></span></div>
+
+  <!-- STANDARDS Q (self gut-check) -->
+  <div class="screen" id="s-standard">
+    <div class="card">
+      <p class="tag">Standards</p>
+      <p class="frame">Start here, because almost every gap gets blamed on everything but this.</p>
+      <div class="qcard">
+        <p class="qlabel">Ask yourself</p>
+        <p class="qtext">Would at least three different people (someone junior, someone senior, someone thriving, someone checked out) describe what "excellent" looks like in their role the same way?</p>
+      </div>
+      <p class="exhead">What a clear standard actually looks like:</p>
+      <div class="exrow">
+        <div class="excard"><span class="cx">Hospitality</span>"Great service" is a preference. "A guest is greeted within ten seconds, by name where we know it" is a standard.</div>
+        <div class="excard"><span class="cx">Office</span>"Good analysis" is a preference. "Every report opens with the decision it's recommending" is a standard.</div>
+        <div class="excard"><span class="cx">Multi-unit</span>"Keep it clean" is a preference. "The ten-point close every location runs, the same way, every night" is a standard.</div>
+      </div>
+      <p class="note"><b>The trap:</b> "They know it, it's written down, we've trained on it." Written, recited, reviewed is a document that's been presented. It isn't a standard people could reproduce with the page taken away. If they couldn't, you have a poster, not a standard. Matching, specific answers means the bar is real; vague or conflicting ones ("good work," "hustle") mean it's a preference in disguise.</p>
+      <div class="choices">
+        <button class="choice" onclick="pick('standard','pass')">Yes, they'd line up.</button>
+        <button class="choice" onclick="pick('standard','fail')">Honestly, I'm not sure they would.</button>
       </div>
     </div>
-  </header>
+  </div>
 
-  <!-- ============ INTRO ============ -->
-  <section class="intro">
-    <div class="container">
-      <p>The Gallup Q12 meta-analysis tracked engagement across more than 180,000 business units. Engaged teams show 23% higher profitability, 14% higher productivity, 78% lower absenteeism, and 51% lower turnover than disengaged ones.</p>
-      <p>Those figures are not aspirational benchmarks. They are already on your books — labelled as overtime costs, recruitment fees, sick days, and output shortfalls. This tool converts them into a number specific to your operation. The methodology is transparent. You can check the arithmetic.</p>
-      <p class="shortcut-note">Don&rsquo;t have your operation&rsquo;s numbers to hand? Not every leader does. You can skip the figures and go straight to assessing your team &mdash; <a href="https://davidedigiorgio.kit.com/goodenoughdiagnostic" target="_top" rel="noopener">find where the gap is coming from &rarr;</a></p>
+  <!-- STANDARDS go find out -->
+  <div class="screen" id="s-standard-test">
+    <div class="card">
+      <p class="tag">Standards · Go find out</p>
+      <p class="frame">Then don't guess. Go and find out this week. Ask at least three different people separately: someone junior, someone senior, someone thriving, someone checked out.</p>
+      <div class="qcard">
+        <p class="qlabel">Ask them, word for word</p>
+        <p class="qtext">"Describe what excellent looks like in your role."</p>
+        <p class="qsub">Then say nothing. Let the silence do the work.</p>
+      </div>
+      <p class="hint">The only things you add: <b style="color:var(--ink)">"Tell me more about that"</b> when they land on something concrete, or <b style="color:var(--ink)">"What else?"</b> when they finish a thought. The first answer is rarely the real one; the truer answer surfaces a beat later, so give it room.</p>
+      <p class="hint">Listen for whether they describe the same thing, concretely: not "good work," but the actual behaviours. When you have your answer, come back and pick up here:</p>
+      <div class="choices">
+        <button class="choice" onclick="pick('standardtest','pass')">They lined up. My bar's clear.</button>
+        <button class="choice" onclick="pick('standardtest','fail')">They didn't line up.</button>
+      </div>
+      <button class="print-btn" onclick="window.print()">Print the question to take with you ↗</button>
     </div>
-  </section>
+  </div>
 
-  <!-- ============ FORM ============ -->
-  <section class="form-section">
-    <div class="container">
-
-      <div class="section-rule">
-        <span class="section-rule-label">Your operation</span>
-        <span class="section-rule-line"></span>
+  <!-- BELIEFS Q -->
+  <div class="screen" id="s-belief">
+    <div class="card">
+      <p class="tag">Beliefs</p>
+      <p class="frame">The bar's clear, and they can do the work. The next question to ask is whether they do it when no one is watching.</p>
+      <p class="hint">(One gut-check first: if some genuinely couldn't do this even with your help, that's a skill gap, not belief. A training conversation, and a different fix.)</p>
+      <div class="qcard">
+        <p class="qlabel">Ask yourself</p>
+        <p class="qtext">When someone reaches beyond good enough and it costs them, in a moment no one would ever catch them skipping, what happens to that person on your team?</p>
       </div>
-
-      <!-- Name (for print) -->
-      <div class="field-group">
-        <label class="field-label" for="orgName">Your name or organisation <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
-        <span class="field-helper">Appears on the printed version if you save or share your results.</span>
-        <input type="text" id="orgName" placeholder="e.g. Sarah Chen / Meridian Group">
+      <p class="exhead">The kind of moment I mean:</p>
+      <div class="exrow flips">
+        <div class="flip" id="f1"><div class="flip-inner">
+          <div class="flip-face"><span class="cx">The catch</span>They spot a mistake no one else would ever have caught. Fixing it takes real effort.<span class="choiceq">Fix it, or let it ship?</span></div>
+          <div class="flip-face flip-back"><span class="cx">The honest flag</span>They realise they got something wrong that no one else noticed.<span class="choiceq">Own it, or let it slide?</span></div>
+        </div></div>
+        <div class="flip" id="f2"><div class="flip-inner">
+          <div class="flip-face"><span class="cx">The shortcut</span>A step they could skip, with no one watching and nothing breaking today.<span class="choiceq">Do it right, or take the shortcut?</span></div>
+          <div class="flip-face flip-back"><span class="cx">The detail</span>A finish is "good enough" but not quite right, and no one will ever inspect it.<span class="choiceq">Make it right, or move on?</span></div>
+        </div></div>
+        <div class="flip" id="f3"><div class="flip-inner">
+          <div class="flip-face"><span class="cx">The handoff</span>They're leaving something for the next person. No one tracks the state they leave it in.<span class="choiceq">Set it up well, or just enough?</span></div>
+          <div class="flip-face flip-back"><span class="cx">The easy version</span>A customer would never know the difference either way.<span class="choiceq">Give them the better version, or the easy one?</span></div>
+        </div></div>
       </div>
-
-      <!-- Team size -->
-      <div class="field-group">
-        <label class="field-label" for="teamSize">How many people are in your team?</label>
-        <span class="field-helper">Include direct reports and the full team you're accountable for. If you lead multiple teams or locations, use total headcount.</span>
-        <input type="number" id="teamSize" min="1" max="100000" placeholder="e.g. 45">
-        <span class="field-error" id="teamSizeError">Please enter a team size greater than zero.</span>
+      <div class="response">
+        <p class="rlabel">Here's what actually tells the story</p>
+        <p>When they <em>do</em> reach beyond good enough, when they choose the harder right that no one asked for, what happens next? Are they seen? Celebrated? Or does it pass unnoticed and cost them? Their honest read of <b>your</b> response is what decides whether their best ever shows up again.</p>
       </div>
-
-      <!-- Salary + currency -->
-      <div class="field-group">
-        <label class="field-label">Average annual salary (gross, pre-benefits)</label>
-        <span class="field-helper">Your best estimate. If salaries vary widely, use the median. Base salary only — exclude bonuses, benefits, and contractor fees.</span>
-        <div class="field-row">
-          <div>
-            <input type="number" id="avgSalary" min="1" placeholder="e.g. 65000">
-            <span class="field-error" id="salaryError">Please enter an average salary greater than zero.</span>
-          </div>
-          <select id="currency" aria-label="Currency">
-            <option value="$">$ USD</option>
-            <option value="£">£ GBP</option>
-            <option value="€">€ EUR</option>
-            <option value="CA$">CA$</option>
-            <option value="AU$">AU$</option>
-          </select>
-        </div>
+      <div class="choices">
+        <button class="choice" onclick="pick('belief','pass')">They're seen and celebrated.</button>
+        <button class="choice" onclick="pick('belief','fail')">Overlooked, or honestly I'm not sure.</button>
       </div>
-
-      <!-- Engagement input -->
-      <div class="field-group">
-        <label class="field-label">What's your team's current engagement level?</label>
-        <span class="field-helper">Choose the input method that matches what you know.</span>
-
-        <div class="tab-bar" role="tablist">
-          <button class="tab-btn active" data-tab="score" onclick="switchTab('score')" role="tab" aria-selected="true">I have a score</button>
-          <button class="tab-btn" data-tab="estimate" onclick="switchTab('estimate')" role="tab" aria-selected="false">I'll estimate</button>
-          <button class="tab-btn" data-tab="turnover" onclick="switchTab('turnover')" role="tab" aria-selected="false">Use turnover rate</button>
-        </div>
-
-        <!-- Tab: Formal score -->
-        <div class="tab-panel active" id="tab-score">
-          <span class="field-helper">Enter the percentage of your team who score as engaged on a formal measure — Gallup Q12, eNPS, or equivalent. If your score is a raw number rather than a percentage, convert it first.</span>
-          <input type="number" id="engagementScore" min="0" max="100" placeholder="e.g. 34">
-          <span class="field-error" id="scoreError">Please enter a percentage between 0 and 100.</span>
-        </div>
-
-        <!-- Tab: Slider estimate -->
-        <div class="tab-panel" id="tab-estimate">
-          <span class="field-helper">Move the slider to your honest estimate. If you're not sure, aim lower rather than higher — you can recalculate.</span>
-          <span class="slider-val" id="sliderDisplay">33%</span>
-          <input type="range" id="engagementSlider" min="0" max="100" value="33" oninput="updateSlider()" aria-label="Engagement estimate">
-          <div class="slider-ticks">
-            <span>0%</span>
-            <span>Global avg 23%</span>
-            <span>US avg 33%</span>
-            <span>Top quartile 65%</span>
-            <span>100%</span>
-          </div>
-          <div class="slider-context" id="sliderContext">
-            If most of your team shows up, does their job, and goes home without much initiative or discretionary effort when it matters — you're likely in the 25–40% range.
-          </div>
-        </div>
-
-        <!-- Tab: Turnover proxy -->
-        <div class="tab-panel" id="tab-turnover">
-          <span class="field-helper">Enter your annual voluntary turnover rate — the percentage of employees who leave by choice in a 12-month period. We'll map this to an estimated engagement level using Gallup's benchmarks.</span>
-          <input type="number" id="turnoverRate" min="0" max="300" placeholder="e.g. 18" oninput="mapTurnover()" aria-label="Annual voluntary turnover rate">
-          <div class="turnover-derived" id="turnoverDerived"></div>
-          <span class="field-error" id="turnoverError">Please enter a turnover rate before calculating.</span>
-        </div>
-      </div>
-
-      <!-- Optional revenue -->
-      <div class="field-group">
-        <button class="optional-toggle" onclick="toggleRevenue()" id="revenueToggle" aria-expanded="false">
-          <span class="toggle-icon" id="toggleIcon">+</span>
-          Add annual revenue for a profitability calculation (optional)
-        </button>
-        <div class="optional-field" id="revenueField">
-          <label class="field-label" for="annualRevenue">Annual revenue</label>
-          <span class="field-helper">If provided, we'll calculate the profitability impact of closing your engagement gap — based on Gallup's 23% profitability premium. Leave blank to skip this calculation.</span>
-          <input type="number" id="annualRevenue" min="0" placeholder="e.g. 12000000">
-        </div>
-      </div>
-
-      <button class="calc-btn" onclick="calculate()">Calculate the cost</button>
-      <p class="privacy-note">Runs entirely in your browser. Nothing you type leaves it.</p>
-
     </div>
-  </section>
+  </div>
 
-  <!-- ============ RESULTS ============ -->
-  <section class="results" id="results" aria-live="polite">
-    <div class="container">
-
-      <!-- Print header (only visible when printing) -->
-      <div class="print-header" id="printHeader"></div>
-
-      <div class="results-header">
-        <p class="results-eyebrow">Your results</p>
-        <h2 class="results-title">The cost of good enough in your operation</h2>
-        <p class="results-summary" id="resultsSummary"></p>
+  <!-- RESULT: STANDARDS (lean) -->
+  <div class="screen result" id="r-standard">
+    <div class="card">
+      <p class="verdict">Start here · Standards</p>
+      <h2>This is a standards problem.</h2>
+      <p>If the answers don't line up, the bar isn't set. It's a preference no one else can see, let alone hit. And nothing below this is even readable until it's clear.</p>
+      <div class="step">
+        <p class="label">Your next most powerful step</p>
+        <p>Here's the part most leaders get wrong: they write a cleaner version and hand it down. Do that and it lands as one more thing imposed on people, and an imposed standard buys you compliance at best.</p>
+        <p>If the standard genuinely isn't clear, build it with the people who live it, in their own words, so it's theirs. Then install it over time and reinforce it in the moment, in real time, not in a memo. A standard people helped shape, and hear again when it matters, is one they'll hold when you're not there.</p>
       </div>
-
-      <!-- Line items -->
-      <div class="line-items" id="lineItems"></div>
-
-      <!-- Total -->
-      <div class="total-box">
-        <p class="total-label">Total annual cost of your performance gap</p>
-        <p class="total-amount" id="totalAnnual"></p>
-        <p class="total-per-year">per year</p>
-        <div class="five-year-row">
-          <span class="five-year-label">Over five years without intervention</span>
-          <span class="five-year-amount" id="totalFiveYear"></span>
-        </div>
+      <p class="danger"><b>One warning worth its weight:</b> most leaders install a standard by dropping the hammer, with new rules, monitoring, and consequences. That's correction, and it usually widens the gap instead of closing it. Setting a standard people own is a different skill. And if you're sure you've already mastered it because you've done it before, here's the honest question the number you just saw is asking: then why is it that high?</p>
+      <div class="carry"><b class="lbl">Take this with you</b>Next time the gap shows up anywhere, you have three questions: is this a <span class="w">standards</span> problem, a belief problem, or a conditions problem? It starts with standards; stop at the first one that's yours.</div>
+      <button class="expandbtn" onclick="toggleExp(this)">See a preview of the other two ↓</button>
+      <div class="expand">
+        <h4>Beliefs</h4><p>They can do it. Do they believe their best matters, or have they learned that good enough and their best land in the same place?</p>
+        <h4>Conditions</h4><p>What in the operation is teaching them whether to care? Cut what erodes it; grow what builds it.</p>
       </div>
-
-      <!-- Optional profitability -->
-      <div class="profit-box" id="profitBox">
-        <p class="profit-label">Additional: estimated profitability impact</p>
-        <p class="profit-amount" id="profitAmount"></p>
-        <p class="profit-note" id="profitNote"></p>
+      <div class="cta">
+        <p class="prompt-line">Setting a standard that holds is one of the most critical, and most misread, moves in an operation. It's a lot of what I do with leadership teams: a keynote, a masterclass, or a longer advisory engagement.</p>
+        <a href="https://davidedigiorgio.com/speaking" target="_top" rel="noopener">Explore working with Davide →</a>
       </div>
-
-      <!-- PRIMARY CTA — sits directly under the number, before any prose -->
-      <div class="cta-box">
-        <h3>You know the cost. Now find the cause.</h3>
-        <p>It&rsquo;s coming from one of three places: your standards, your team&rsquo;s beliefs, or the conditions around them. Only one is yours to start with. A few minutes to find out which, and the one step to take there.</p>
-        <a href="https://davidedigiorgio.kit.com/goodenoughdiagnostic" target="_top" rel="noopener" class="cta-btn">Find where to start &rarr;</a>
-      </div>
-
-      <!-- What this means -->
-      <div class="meaning">
-        <h3>What this number means</h3>
-        <p>This is not a projection of lost potential. It is the cost of what is already happening — the gap between what your team is capable of delivering and what they are delivering, in the moments that aren't being watched or measured.</p>
-        <p>Most organisations respond to a number like this by adding: another recognition programme, another engagement survey, another manager-effectiveness module. Gallup has been publishing variations of this data for thirty years. The scores haven't moved.</p>
-        <p><em>Good Enough</em> makes a different argument. The gap closes not when you add more, but when you remove what is preventing your team from believing the work is worth their best. That is a different problem to solve, and a different kind of leadership to practise.</p>
-        <p>If this number is worth closing, the book is worth reading.</p>
-      </div>
-
-      <!-- CTA repeat — lighter, for anyone who read to the end -->
-      <div class="cta-repeat">
-        <p>One of three places. Find out which, and the one step to take there.</p>
-        <a href="https://davidedigiorgio.kit.com/goodenoughdiagnostic" target="_top" rel="noopener" class="cta-btn">Find where to start &rarr;</a>
-      </div>
-
-      <button class="print-btn" onclick="window.print()">
-        Print or save as PDF &nbsp;↗
-      </button>
-
-      <p class="methodology">
-        <strong>Methodology.</strong> Based on Gallup Q12 global meta-analysis (Harter, Tatel, Agrawal, Blue et al., 2024, 11th edition). Productivity figure uses 16% — the midpoint of Gallup's 14–18% range (14% production records and evaluations; 18% sales). Absenteeism cost calculated at 5.46 additional days per disengaged employee (78% lower absenteeism benchmark × 7-day annual baseline). Annual departure probability for disengaged employees set at 20%; replacement cost estimated at 40% of annual salary (standard HR benchmark). Turnover-to-engagement mapping and profitability calculations are estimates based on proportional scaling from Gallup's quartile data. Top-quartile benchmark set at 65% engaged. All figures are estimates for planning purposes; individual results will vary by industry, team structure, and market conditions.
-        <br><br>
-        <strong>Your data.</strong> This tool runs entirely in your browser. Your figures, your name, and your results are never sent anywhere, stored, or logged &mdash; there&rsquo;s no server, no database, and no analytics on this page. Close the tab and it&rsquo;s gone. You can check that in the page source, the same way you can check the arithmetic.
-      </p>
-
+      <button class="print-btn" onclick="window.print()">Print this step ↗</button>
+      <button class="restart" onclick="restart()">← Start over</button>
     </div>
-  </section>
+  </div>
 
-  <!-- ============ FOOTER ============ -->
-  <footer class="site-footer">
-    <div class="container">
-      <p>Davide Di Giorgio &nbsp;·&nbsp; <em>Good Enough</em> &nbsp;·&nbsp; Coming late 2026</p>
+  <!-- RESULT: BELIEFS -->
+  <div class="screen result" id="r-belief">
+    <div class="card">
+      <p class="verdict">Your starting point · Beliefs</p>
+      <h2>This is a belief problem.</h2>
+      <p>The bar's clear, they can do it, but the reach is gone. Once people learn that good enough and their best land in the same place, they'll give you good enough and keep the rest. You can't announce your way out of that.</p>
+      <p>You saw it in those moments: the mistake caught, the shortcut refused, the handoff done right. None of it shows on a dashboard.</p>
+      <div class="step">
+        <p class="label">Your next most powerful step</p>
+        <p>This week, pick one person and one thing that could genuinely be theirs. Then make it a real ask, not a hand-off. Say:</p>
+        <p class="say">"I'd like this to be yours to own."</p>
+        <p>Then stop, and wait for them to actually accept it. This is an invitation, not an assignment. Once they've said yes:</p>
+        <p class="say">"I'm not going to hover. I trust you with it. I'm here if you want me, genuinely, to think it through together, never to check up on you. It's yours."</p>
+        <p>Then give them the room. What the work becomes when it's truly theirs, and they know you're for them, is your reading of belief.</p>
+        <p>And find one thing that limits or punishes reaching. It might be a correction that could have been a coaching moment. Just as often it's a gate, a sign-off, a permission step, or a process that adds friction to doing more than the minimum. Whatever it is, take it away.</p>
+      </div>
+      <div class="carry"><b class="lbl">Take this with you</b>Next time the gap shows up anywhere, you have three questions: is this a standards problem, a <span class="w">belief</span> problem, or a conditions problem? It starts with standards; stop at the first one that's yours.</div>
+      <div class="cta">
+        <p class="prompt-line">Rebuilding belief is the heart of the work I do with leadership teams: a keynote, a masterclass, or a longer advisory engagement.</p>
+        <a href="https://davidedigiorgio.com/speaking" target="_top" rel="noopener">Explore working with Davide →</a>
+      </div>
+      <button class="print-btn" onclick="window.print()">Print this step ↗</button>
+      <button class="restart" onclick="restart()">← Start over</button>
     </div>
-  </footer>
+  </div>
 
-  <!-- ============ JAVASCRIPT ============ -->
-  <script>
-    /* ─── STATE ─── */
-    let activeTab = 'score';
-    let revenueOpen = false;
+  <!-- RESULT: CONDITIONS (good) -->
+  <div class="screen result" id="r-good">
+    <div class="card">
+      <p class="verdict">The good-news answer · Conditions</p>
+      <h2>Your people are reaching. Now protect it.</h2>
+      <p>The belief is there. So the question that matters now is why.</p>
+      <div class="qcard">
+        <p class="qlabel">Ask yourself</p>
+        <p class="qtext">Why are my people reaching beyond good enough? What, specifically, is making them do it?</p>
+      </div>
+      <p>If your honest answer is "I have great people," that's not an answer. It's luck. And luck doesn't transfer, promote, or scale. It leaves the day that person does, and takes the unnamed system with it.</p>
+      <p class="exhead">Luck vs a mechanism you could hand to another team:</p>
+      <div class="exrow">
+        <div class="excard"><span class="cx">Developing people</span><span class="lm luck">Luck</span>"We hire well."<span class="lm mech">A mechanism</span>"Every new hire shadows our best for two weeks, then keeps a mentor to go to through their first 90 days."</div>
+        <div class="excard"><span class="cx">Improving the work</span><span class="lm luck">Luck</span>"Our team just cares."<span class="lm mech">A mechanism</span>"Every project ends with a fifteen-minute what-worked, and those lessons are built into how the next one starts."</div>
+        <div class="excard"><span class="cx">Across sites</span><span class="lm luck">Luck</span>"That site's just strong."<span class="lm mech">A mechanism</span>"Every location runs the same five-minute pre-shift huddle, every shift."</div>
+      </div>
+      <div class="step">
+        <p class="label">Your next most powerful step</p>
+        <p>Say the answer out loud, in one sentence, the way you'd hand it to a brand-new manager. If you can't finish the sentence, that's the work: make the invisible thing sayable, then repeatable. Give it to one other team and watch whether it travels. If it does, you have a system. If it doesn't, you've found the next thing to build.</p>
+      </div>
+      <div class="carry"><b class="lbl">Take this with you</b>Next time the gap shows up anywhere, you have three questions: is this a standards problem, a belief problem, or a <span class="w">conditions</span> problem? It starts with standards; stop at the first one that's yours.</div>
+      <div class="cta">
+        <p class="prompt-line">Turning a lottery into a system that survives the people is exactly the work: a keynote, a masterclass, or a longer advisory engagement.</p>
+        <a href="https://davidedigiorgio.com/speaking" target="_top" rel="noopener">Explore working with Davide →</a>
+      </div>
+      <button class="print-btn" onclick="window.print()">Print this step ↗</button>
+      <button class="restart" onclick="restart()">← Start over</button>
+    </div>
+  </div>
 
-    /* ─── TAB SWITCHING ─── */
-    function switchTab(tab) {
-      activeTab = tab;
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        const active = btn.dataset.tab === tab;
-        btn.classList.toggle('active', active);
-        btn.setAttribute('aria-selected', active);
-      });
-      document.querySelectorAll('.tab-panel').forEach(panel => {
-        panel.classList.toggle('active', panel.id === 'tab-' + tab);
-      });
-      // Clear derived turnover if switching away
-      if (tab !== 'turnover') {
-        document.getElementById('turnoverError').style.display = 'none';
-      }
+  <p class="foot">Davide Di Giorgio &nbsp;·&nbsp; <em>Good Enough</em> &nbsp;·&nbsp; Coming late 2026</p>
+</div>
+
+<script>
+  function showScreen(id,dotsDone){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    var dotsWrap=document.getElementById('dots');
+    if(dotsDone===null){dotsWrap.style.display='none';}
+    else{
+      dotsWrap.style.display='flex';
+      var d=[document.getElementById('d1'),document.getElementById('d2'),document.getElementById('d3')];
+      d.forEach(x=>{x.classList.remove('on');x.classList.remove('done');});
+      for(var i=0;i<3;i++){ if(i<dotsDone){d[i].classList.add('done');} else if(i===dotsDone){d[i].classList.add('on');} }
     }
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function begin(){ showScreen('s-standard',0); }
+  function pick(gate,outcome){
+    if(gate==='standard'){ outcome==='fail'?showScreen('s-standard-test',0):showScreen('s-belief',1); }
+    else if(gate==='standardtest'){ outcome==='fail'?showScreen('r-standard',0):showScreen('s-belief',1); }
+    else if(gate==='belief'){ outcome==='fail'?showScreen('r-belief',1):showScreen('r-good',2); }
+  }
+  function toggleExp(btn){ btn.nextElementSibling.classList.toggle('on'); }
+  function restart(){ var e=document.querySelector('.expand.on'); if(e)e.classList.remove('on'); showScreen('s-intro',null); }
 
-    /* ─── SLIDER ─── */
-    function updateSlider() {
-      const v = parseInt(document.getElementById('engagementSlider').value);
-      document.getElementById('sliderDisplay').textContent = v + '%';
-
-      const ctx = document.getElementById('sliderContext');
-      if (v < 15) {
-        ctx.textContent = 'Below the global average. Most teams at this level show visible disengagement — high turnover, low discretionary effort, significant supervisory overhead.';
-      } else if (v < 26) {
-        ctx.textContent = 'Around or below the global average (23%). A significant proportion of your team is likely compliant rather than committed.';
-      } else if (v < 38) {
-        ctx.textContent = 'Near the US average (33%). Typical of organisations that have invested in engagement programmes without seeing consistent results.';
-      } else if (v < 55) {
-        ctx.textContent = 'Above average. Your team shows more committed behaviour than most — but there is still a measurable gap relative to top-quartile organisations.';
-      } else if (v < 68) {
-        ctx.textContent = 'Approaching top-quartile performance (65%+). You likely have strong conditions in place. The gap that remains is still measurable and worth addressing.';
-      } else {
-        ctx.textContent = 'Top-quartile or above. You are operating in the range where discretionary effort and unsupervised performance are characteristically strong.';
-      }
-    }
-
-    /* ─── TURNOVER MAPPING ─── */
-    function mapTurnover() {
-      const t = parseFloat(document.getElementById('turnoverRate').value);
-      const el = document.getElementById('turnoverDerived');
-
-      if (isNaN(t) || document.getElementById('turnoverRate').value === '') {
-        el.style.display = 'none';
-        return;
-      }
-
-      let eng, desc;
-      if      (t < 8)  { eng = 58; desc = 'Low turnover suggests higher engagement. Estimated engagement level: 58%.'; }
-      else if (t < 15) { eng = 42; desc = 'Moderate turnover — near the US average range. Estimated engagement level: 42%.'; }
-      else if (t < 25) { eng = 30; desc = 'Above-average turnover suggests meaningful disengagement. Estimated engagement level: 30%.'; }
-      else if (t < 40) { eng = 20; desc = 'High turnover is a consistent signal of disengagement. Estimated engagement level: 20%.'; }
-      else             { eng = 12; desc = 'Very high turnover is consistent with significant active disengagement. Estimated engagement level: 12%.'; }
-
-      el.style.display = 'block';
-      el.textContent = desc;
-      el.dataset.eng = eng;
-    }
-
-    /* ─── OPTIONAL REVENUE ─── */
-    function toggleRevenue() {
-      revenueOpen = !revenueOpen;
-      document.getElementById('revenueField').classList.toggle('show', revenueOpen);
-      document.getElementById('toggleIcon').textContent = revenueOpen ? '−' : '+';
-      document.getElementById('revenueToggle').setAttribute('aria-expanded', revenueOpen);
-    }
-
-    /* ─── CURRENCY FORMAT ─── */
-    function fmt(n, sym) {
-      const rounded = Math.round(n);
-      if (rounded >= 10000000) return sym + (rounded / 1000000).toFixed(1) + 'M';
-      if (rounded >= 1000000)  return sym + (rounded / 1000000).toFixed(2) + 'M';
-      return sym + rounded.toLocaleString('en-US');
-    }
-
-    /* ─── VALIDATION ─── */
-    function validate(teamSize, avgSalary, engPct) {
-      let ok = true;
-
-      const tsEl = document.getElementById('teamSize');
-      const tsErr = document.getElementById('teamSizeError');
-      if (!teamSize || teamSize <= 0 || isNaN(teamSize)) {
-        tsEl.classList.add('invalid'); tsErr.style.display = 'block'; ok = false;
-      } else {
-        tsEl.classList.remove('invalid'); tsErr.style.display = 'none';
-      }
-
-      const salEl = document.getElementById('avgSalary');
-      const salErr = document.getElementById('salaryError');
-      if (!avgSalary || avgSalary <= 0 || isNaN(avgSalary)) {
-        salEl.classList.add('invalid'); salErr.style.display = 'block'; ok = false;
-      } else {
-        salEl.classList.remove('invalid'); salErr.style.display = 'none';
-      }
-
-      if (activeTab === 'score') {
-        const scEl = document.getElementById('engagementScore');
-        const scErr = document.getElementById('scoreError');
-        if (scEl.value === '' || engPct < 0 || engPct > 100 || isNaN(engPct)) {
-          scEl.classList.add('invalid'); scErr.style.display = 'block'; ok = false;
-        } else {
-          scEl.classList.remove('invalid'); scErr.style.display = 'none';
-        }
-      }
-
-      if (activeTab === 'turnover') {
-        const tEl = document.getElementById('turnoverRate');
-        const tErr = document.getElementById('turnoverError');
-        const derived = document.getElementById('turnoverDerived');
-        if (tEl.value === '' || !derived.dataset.eng) {
-          tEl.classList.add('invalid'); tErr.style.display = 'block'; ok = false;
-        } else {
-          tEl.classList.remove('invalid'); tErr.style.display = 'none';
-        }
-      }
-
-      return ok;
-    }
-
-    /* ─── MAIN CALCULATION ─── */
-    function calculate() {
-      const teamSize  = parseFloat(document.getElementById('teamSize').value);
-      const avgSalary = parseFloat(document.getElementById('avgSalary').value);
-      const sym       = document.getElementById('currency').value;
-      const orgName   = document.getElementById('orgName').value.trim();
-
-      let engPct;
-      if (activeTab === 'score') {
-        engPct = parseFloat(document.getElementById('engagementScore').value);
-      } else if (activeTab === 'estimate') {
-        engPct = parseInt(document.getElementById('engagementSlider').value);
-      } else {
-        const d = document.getElementById('turnoverDerived');
-        engPct = d.dataset.eng ? parseFloat(d.dataset.eng) : NaN;
-      }
-
-      if (!validate(teamSize, avgSalary, engPct)) return;
-
-      /* Core figures */
-      const disengaged      = teamSize * (1 - engPct / 100);
-      const productivCost   = disengaged * avgSalary * 0.16;
-      const absCost         = disengaged * (avgSalary / 260) * 5.46;
-      const turnoverCost    = disengaged * 0.20 * avgSalary * 0.40;
-      const totalAnnual     = productivCost + absCost + turnoverCost;
-      const fiveYear        = totalAnnual * 5;
-
-      /* Optional profitability */
-      let profitImpact = null;
-      const revStr = document.getElementById('annualRevenue').value;
-      if (revenueOpen && revStr && parseFloat(revStr) > 0) {
-        const rev    = parseFloat(revStr);
-        const gapP   = Math.max(0, Math.min(1, (65 - engPct) / 55));
-        profitImpact = rev * gapP * 0.23;
-      }
-
-      renderResults({
-        teamSize: Math.round(teamSize),
-        avgSalary, sym, orgName, engPct,
-        disengaged: Math.round(disengaged),
-        productivCost, absCost, turnoverCost,
-        totalAnnual, fiveYear, profitImpact
-      });
-    }
-
-    /* ─── RENDER ─── */
-    function renderResults(d) {
-      const { sym } = d;
-
-      /* Print header */
-      const ph = document.getElementById('printHeader');
-      const today = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
-      ph.textContent = (d.orgName ? d.orgName + ' — ' : '') + 'The Cost of Good Enough · Calculated ' + today;
-
-      /* Summary */
-      document.getElementById('resultsSummary').textContent =
-        `Based on ${d.teamSize.toLocaleString()} team members at an average salary of ${fmt(d.avgSalary, sym)}, with ${d.engPct}% currently engaged — ${d.disengaged.toLocaleString()} of your people are below the engagement threshold.`;
-
-      /* Line items */
-      document.getElementById('lineItems').innerHTML = `
-        <div class="line-item">
-          <div class="li-top">
-            <span class="li-name">Lost productivity</span>
-            <span class="li-amount">${fmt(d.productivCost, sym)}/yr</span>
-          </div>
-          <div class="li-calc">${d.disengaged} disengaged × ${fmt(d.avgSalary, sym)} avg salary × 16% productivity gap</div>
-          <div class="li-explain">Gallup's research shows engaged teams are 14–18% more productive than disengaged ones. This calculation uses 16% — the midpoint. It represents output your team is leaving on the table: not from lack of capability, but from the absence of belief that their best effort matters.</div>
-        </div>
-        <div class="line-item">
-          <div class="li-top">
-            <span class="li-name">Excess absenteeism</span>
-            <span class="li-amount">${fmt(d.absCost, sym)}/yr</span>
-          </div>
-          <div class="li-calc">${d.disengaged} disengaged × 5.46 additional absent days × ${fmt(d.avgSalary / 260, sym)} daily salary</div>
-          <div class="li-explain">Engaged teams show 78% lower absenteeism than disengaged ones. At a 7-day annual baseline, disengaged employees average roughly 5.46 additional absent days. This is the payroll cost of those days — before accounting for coverage, disruption, or the secondary effect on team performance.</div>
-        </div>
-        <div class="line-item">
-          <div class="li-top">
-            <span class="li-name">Turnover and replacement</span>
-            <span class="li-amount">${fmt(d.turnoverCost, sym)}/yr</span>
-          </div>
-          <div class="li-calc">${d.disengaged} disengaged × 20% annual departure rate × 40% replacement cost</div>
-          <div class="li-explain">Disengaged employees are significantly more likely to leave voluntarily. Replacing a team member costs roughly 40% of their annual salary — in recruitment, onboarding, and the lost productivity during the transition. This estimates the annualised cost of disengagement-driven turnover.</div>
-        </div>
-      `;
-
-      /* Totals */
-      document.getElementById('totalAnnual').textContent   = fmt(d.totalAnnual, sym);
-      document.getElementById('totalFiveYear').textContent = fmt(d.fiveYear, sym);
-
-      /* Profitability */
-      const profBox = document.getElementById('profitBox');
-      if (d.profitImpact !== null) {
-        const gapPct = Math.max(0, ((65 - d.engPct) / 55 * 23)).toFixed(1);
-        document.getElementById('profitAmount').textContent = fmt(d.profitImpact, sym) + '/yr';
-        document.getElementById('profitNote').textContent =
-          `Closing the engagement gap from ${d.engPct}% towards the top-quartile benchmark (65%) corresponds to approximately ${gapPct}% of Gallup's 23% profitability premium. This is directional, not actuarial — it should be read as an order-of-magnitude estimate rather than a guaranteed return.`;
-        profBox.classList.add('show');
-      } else {
-        profBox.classList.remove('show');
-      }
-
-      /* Show + scroll */
-      const resultsEl = document.getElementById('results');
-      resultsEl.classList.add('show');
-      setTimeout(() => resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
-    }
-
-    /* ─── INIT ─── */
-    document.addEventListener('DOMContentLoaded', updateSlider);
-  </script>
+  (function(){
+    var flips=[document.getElementById('f1'),document.getElementById('f2'),document.getElementById('f3')];
+    if(flips.some(function(x){return !x;})) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce) return;
+    var on=false;
+    setInterval(function(){
+      on=!on;
+      flips.forEach(function(el,i){ setTimeout(function(){ el.classList.toggle('flipped', on); }, i*480); });
+    }, 8400);
+  })();
+</script>
 </body>
 </html>
