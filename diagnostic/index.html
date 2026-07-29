@@ -73,8 +73,12 @@
   .cta{margin:24px 0 0;}
   .cta .prompt-line{font-size:15px;color:var(--ink-soft);font-style:italic;margin:0 0 16px;}
   .cta a{display:inline-block;background:var(--red);color:#fff;text-decoration:none;font-weight:700;font-size:15px;padding:15px 30px;border-radius:9px;}
+  .cta .alt{display:block;margin:16px 0 0;font-size:14.5px;line-height:1.65;color:var(--ink-soft);font-style:normal;}
+  .cta .alt a{display:inline;background:none;color:var(--ink-soft);padding:0;border-radius:0;font-weight:600;font-size:inherit;text-decoration:underline;text-underline-offset:2px;}
+  .cta .alt a:hover{color:var(--red);}
   .restart{display:inline-block;margin-top:22px;font-size:14px;color:var(--grey);background:none;border:none;cursor:pointer;text-decoration:underline;font-family:inherit;}
   .foot{text-align:center;margin-top:40px;font-size:12.5px;color:#6E5310;}
+  .foot a{color:#6E5310;text-decoration:underline;text-underline-offset:2px;}
   @media(max-width:560px){h1{font-size:32px;}.wrap{padding:38px 18px 60px;}.exrow{flex-direction:column;}.flip{flex:none;height:148px;}}
   .choiceq{display:block;margin-top:9px;font-weight:700;color:var(--ink);}
   .response{background:#fff;border:1px solid #EBD9A6;border-left:5px solid #E9B42A;border-radius:11px;padding:16px 18px;margin:0 0 22px;}
@@ -86,7 +90,7 @@
   .print-btn{display:inline-block;margin-top:16px;margin-right:18px;font-size:14px;color:var(--grey);background:none;border:none;cursor:pointer;text-decoration:underline;font-family:inherit;}
   @media print{
     body{background:#fff;}
-    .dots,.choices,.begin,.restart,.expandbtn,.print-btn,.cta a,.foot,.eyebrow,.flips{display:none!important;}
+    .dots,.choices,.begin,.restart,.expandbtn,.print-btn,.cta a,.cta .alt,.foot,.eyebrow,.flips{display:none!important;}
     .screen:not(.active){display:none!important;}
     .card{border:none;}
     .step{background:#fff!important;border:1px solid #000;}
@@ -217,8 +221,9 @@
         <h4>Conditions</h4><p>What in the operation is teaching them whether to care? Cut what erodes it; grow what builds it.</p>
       </div>
       <div class="cta">
-        <p class="prompt-line">Setting a standard that holds is one of the most critical, and most misread, moves in an operation. It's a lot of what I do with leadership teams: a keynote, a masterclass, or a longer advisory engagement.</p>
-        <a href="https://davidedigiorgio.com/speaking" target="_top" rel="noopener">Explore working with Davide →</a>
+        <p class="prompt-line">Building a standard people own, rather than one they're handed, is where this whole thing starts. It's also where the book starts.</p>
+        <a href="https://goodenough.davidedigiorgio.com" target="_top" rel="noopener">Read chapter one →</a>
+        <span class="alt">You can also <a href="https://davidedigiorgio.com/speaking" target="_top" rel="noopener">bring this to your team from the stage</a>, or <a href="https://davidedigiorgio.com/contact" target="_top" rel="noopener">talk it through with me directly</a>.</span>
       </div>
       <button class="print-btn" onclick="window.print()">Print this step ↗</button>
       <button class="restart" onclick="restart()">← Start over</button>
@@ -243,8 +248,9 @@
       </div>
       <div class="carry"><b class="lbl">Take this with you</b>Next time the gap shows up anywhere, you have three questions: is this a standards problem, a <span class="w">belief</span> problem, or a conditions problem? It starts with standards; stop at the first one that's yours.</div>
       <div class="cta">
-        <p class="prompt-line">Rebuilding belief is the heart of the work I do with leadership teams: a keynote, a masterclass, or a longer advisory engagement.</p>
+        <p class="prompt-line">Rebuilding belief is the heart of the work I do with leadership teams, and it's the kind of thing a room is better off hearing together: a keynote, a masterclass, or a longer advisory engagement.</p>
         <a href="https://davidedigiorgio.com/speaking" target="_top" rel="noopener">Explore working with Davide →</a>
+        <span class="alt">You can also <a href="https://goodenough.davidedigiorgio.com" target="_top" rel="noopener">read chapter one of the book</a>, or <a href="https://davidedigiorgio.com/contact" target="_top" rel="noopener">talk it through with me directly</a>.</span>
       </div>
       <button class="print-btn" onclick="window.print()">Print this step ↗</button>
       <button class="restart" onclick="restart()">← Start over</button>
@@ -274,15 +280,16 @@
       </div>
       <div class="carry"><b class="lbl">Take this with you</b>Next time the gap shows up anywhere, you have three questions: is this a standards problem, a belief problem, or a <span class="w">conditions</span> problem? It starts with standards; stop at the first one that's yours.</div>
       <div class="cta">
-        <p class="prompt-line">Turning a lottery into a system that survives the people is exactly the work: a keynote, a masterclass, or a longer advisory engagement.</p>
-        <a href="https://davidedigiorgio.com/speaking" target="_top" rel="noopener">Explore working with Davide →</a>
+        <p class="prompt-line">Turning a lottery into a system that outlives the people who built it is slow, specific work, and most of it happens over a longer engagement rather than in a single room.</p>
+        <a href="https://davidedigiorgio.com/contact" target="_top" rel="noopener">Talk it through with me →</a>
+        <span class="alt">You can also see <a href="https://davidedigiorgio.com/speaking" target="_top" rel="noopener">what a keynote or masterclass looks like</a>, or <a href="https://goodenough.davidedigiorgio.com" target="_top" rel="noopener">read chapter one of the book</a>.</span>
       </div>
       <button class="print-btn" onclick="window.print()">Print this step ↗</button>
       <button class="restart" onclick="restart()">← Start over</button>
     </div>
   </div>
 
-  <p class="foot">Davide Di Giorgio &nbsp;·&nbsp; <em>Good Enough</em> &nbsp;·&nbsp; Coming late 2026</p>
+  <p class="foot">Davide Di Giorgio &nbsp;·&nbsp; <a href="https://goodenough.davidedigiorgio.com" target="_top" rel="noopener"><em>Good Enough</em></a> &nbsp;·&nbsp; Out 15 September 2026</p>
 </div>
 
 <script>
