@@ -198,7 +198,7 @@ html{scroll-behavior:smooth;}
 
 /* ===== welcome = guide-hub feel (Josefin Sans / Muli, cream, gold hero, overlapping video, open card) ===== */
 .welcomeband{max-width:820px;margin:16px auto;background:var(--cream);font-family:"Muli",-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);border-radius:14px;overflow:hidden;}
-.gehero{background:var(--gold);color:var(--ink);padding:30px 40px 92px;text-align:center;}
+.gehero{background:var(--gold);color:var(--ink);padding:30px 40px 92px;text-align:center;border-radius:14px;}
 .gehero .kick{font-family:"Josefin Sans",system-ui,sans-serif;letter-spacing:.26em;text-transform:uppercase;font-size:12.5px;font-weight:700;margin:0;color:var(--red);line-height:1.4;}
 .gehero .greet{font-family:"Josefin Sans",system-ui,sans-serif;font-weight:700;font-size:36px;margin:12px 0 6px;color:var(--ink);line-height:1.05;}
 .gehero .ghsub{font-size:13px;letter-spacing:.06em;font-weight:700;text-transform:uppercase;color:rgba(13,13,13,.6);margin:0;}
@@ -353,6 +353,7 @@ html{scroll-behavior:smooth;}
 .xli p{font-size:13.5px;line-height:1.6;color:#c9cede;margin:0;}
 .xacts{display:flex;align-items:center;gap:18px;margin-top:16px;flex-wrap:wrap;}
 .xbtn{display:inline-block;background:var(--gold);color:#0D0D0D;font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:14px;padding:12px 22px;border-radius:30px;text-decoration:none;}
+.xbtn{border:0;cursor:pointer;}
 .xig{font-size:13px;color:#e7d59a;text-decoration:none;font-weight:600;}
 .xmore{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .xmore a{display:block;background:#FCF7E8;border:1px solid #ece3c9;border-radius:10px;padding:13px 15px;text-decoration:none;}
@@ -363,6 +364,9 @@ html{scroll-behavior:smooth;}
 .xreview{text-align:center;margin:18px 0 2px;background:#FBF3DC;border:1px solid #E9B42A;border-radius:14px;padding:22px 26px;}
 .xreview p{font-size:14px;line-height:1.6;color:#3a3524;margin:0 auto 14px;max-width:52ch;}
 .xreview .xbtn{background:#272D4A;color:#fff;}
+.xsharekit .xbtn{background:#8A1A15;}
+.xsharekit p{white-space:nowrap;max-width:none;}
+@media(max-width:560px){.xsharekit p{font-size:11px;}}
 .xspread{display:flex;gap:16px;align-items:stretch;margin:18px 0 2px;}
 .xspread>.xreview{flex:1;margin:0;display:flex;flex-direction:column;}
 .xspread>.xreview>p{flex:1 0 auto;}
@@ -404,6 +408,10 @@ html{scroll-behavior:smooth;}
       </div>
     </div>
       </div>
+    </div>
+    <div class="xreview xsharekit">
+      <p>Know an operator or multi-unit owner?</p>
+      <button class="xbtn" type="button" onclick="shareCompanionCopy()">Copy the link to share &rarr;</button>
     </div>
   </div>
 </section>
@@ -804,6 +812,7 @@ function showToast(m){var t=document.getElementById('getoast');if(!t)return;t.te
 function toggleShare(e){if(e)e.preventDefault();var m=document.getElementById('wsharemenu');var b=document.getElementById('wsharebtn');if(!m)return;var willOpen=m.hidden;m.hidden=!willOpen;b.setAttribute('aria-expanded',String(willOpen));}
 function closeShare(){var m=document.getElementById('wsharemenu');if(m&&!m.hidden){m.hidden=true;var b=document.getElementById('wsharebtn');if(b)b.setAttribute('aria-expanded','false');}}
 function shareCopy(){var u="https://davidedigiorgio.com/good-enough";closeShare();if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(function(){showToast("Link copied to clipboard");}).catch(function(){showToast(u);});}else{showToast(u);}}
+function shareCompanionCopy(){var u="https://goodenough.davidedigiorgio.com/get-companion";if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(function(){showToast("Link copied to clipboard");}).catch(function(){showToast(u);});}else{showToast(u);}}
 function shareEmail(){closeShare();var s=encodeURIComponent("Good Enough by Davide Di Giorgio");var b=encodeURIComponent("I'm reading Good Enough by Davide Di Giorgio. https://davidedigiorgio.com/good-enough");window.location.href="mailto:?subject="+s+"&body="+b;return false;}
 function shareNative(){closeShare();if(navigator.share){navigator.share({title:"Good Enough",text:"I'm reading Good Enough by Davide Di Giorgio.",url:"https://davidedigiorgio.com/good-enough"}).catch(function(){});}}
 (function(){if(navigator.share){var n=document.querySelector('.wsm-native');if(n)n.hidden=false;}})();
