@@ -47,7 +47,7 @@
 }
 *{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 html,body{margin:0;padding:0;}
-body{background:#d7d7d7;color:#000;font-family:var(--body);font-size:11pt;line-height:1.45;}
+body{background:var(--cream);color:#000;font-family:var(--body);font-size:11pt;line-height:1.45;}
 em,i{font-style:italic;}
 b,strong{font-weight:normal;}
 
@@ -71,7 +71,7 @@ html{scroll-behavior:smooth;}
 .navpanel .last .navq{font-family:var(--body);}
 
 /* the sheet */
-.page{position:relative;width:612pt;height:792pt;background:#fff;overflow:hidden;margin:16px auto;box-shadow:0 3px 16px rgba(0,0,0,.28);}
+.page{position:relative;width:612pt;height:792pt;background:#fff;overflow:hidden;margin:16px auto;}
 
 /* welcome band (Davide's presence, above the companion) */
 .welcomeband{max-width:612pt;margin:16px auto;background:#fff;box-shadow:0 3px 16px rgba(0,0,0,.28);}
@@ -306,9 +306,33 @@ html{scroll-behavior:smooth;}
     </section>
     <p class="bookmarknote">Bookmark this page so you can pick the companion back up anytime.</p>
     <div class="getbook"><p>New to <i>Good Enough</i>, or don&rsquo;t have the book yet?</p><a class="getbook-btn" href="https://davidedigiorgio.com/good-enough">Get the book &rarr;</a></div>
+    <div class="tools">
+      <p class="toolslabel">A couple of tools you might find useful</p>
+      <div class="toolrow">
+        <a class="toolcard" href="https://goodenough.davidedigiorgio.com/calculator" target="_blank" rel="noopener">
+          <span class="tct">The Cost of Good Enough</span>
+          <span class="tcb">A two-minute calculator that puts a number on what average performance is costing your operation, in figures your P&amp;L has never labeled.</span>
+          <span class="tcl">Open the calculator &rarr;</span>
+        </a>
+        <a class="toolcard" href="https://goodenough.davidedigiorgio.com/diagnostic/" target="_blank" rel="noopener">
+          <span class="tct">The Good Enough Gap Check</span>
+          <span class="tcb">A short diagnostic to locate the real root of a performance gap &mdash; the standard, the belief, or the conditions &mdash; before you spend a dollar fixing the wrong one.</span>
+          <span class="tcl">Start the diagnostic &rarr;</span>
+        </a>
+      </div>
+    </div>
   </div>
   
 <style>
+.tools{margin-top:22px;}
+.toolslabel{font-family:'Josefin Sans',sans-serif;font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:12px;color:var(--bronze);text-align:center;margin:0 0 12px;}
+.toolrow{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.toolcard{display:flex;flex-direction:column;background:#fff;border:1px solid #EBDFBD;border-left:4px solid var(--gold);border-radius:10px;padding:16px 18px;text-decoration:none;transition:transform .15s ease,border-left-color .15s ease;}
+.toolcard:hover{transform:translateY(-1px);border-left-color:var(--red);}
+.tct{font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:16px;color:var(--navy);margin-bottom:6px;}
+.tcb{font-size:13.5px;line-height:1.55;color:#3a352b;margin-bottom:10px;}
+.tcl{margin-top:auto;font-family:'Josefin Sans',sans-serif;font-weight:700;font-size:13px;color:var(--oxblood);}
+@media(max-width:560px){.toolrow{grid-template-columns:1fr;}}
 .compgroup{margin:14px 0 22px;background:#eef0f6;border-radius:14px;padding:16px 16px 6px;border:1px solid #d9deec;border-left:4px solid var(--navy);}
 .compgroup .filecard{margin:0;background:#fff;border-left:4px solid var(--navy);}
 .compgroup .filecard .fc-title{color:var(--navy);}
